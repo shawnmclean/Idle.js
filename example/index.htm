@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<title>Activity.Js Test</title>
+		<script src="../lib/activity.js"></script>
+		
+		<script>
+			var activity = new Activity();
+			activity.onAway = function(){
+				alert("away");
+			};
+			activity.setAwayTimeout(1000);
+		</script>
+	</head>
+	<body>
+		
+		<ul id="ActivityLog">
+			
+			
+		</ul>
+		
+	</body>
+</html>
