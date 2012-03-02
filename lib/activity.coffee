@@ -1,4 +1,6 @@
-class window.Activity
+
+Activity = { }
+class Activity
   @awayNow: false
   @awayTimeout: 0
   @awayTimestamp: 0
@@ -7,43 +9,65 @@ class window.Activity
   @onAway: null
   @onAwayBack: null
   
-  constructor: () ->
+  #Initialize the class
+  #
+  # @param (Object) options
+  constructor: (options) ->
+    if(options)
+      @awayTimeout = options.awayTimeout
+      @onAway = options.onAway
+      @onAwayBack = options.onAwayBack
+    
+    #object to be accessed in the events that will be called by window.
     activity = this
     activeMethod = () ->
       activity.onActive()
+    #the methods that we will use to know when there is some activity on the page
     window.onclick = activeMethod
     window.onmousemove = activeMethod
+    window.onmouseenter = activeMethod
+    window.onkeydown = activeMethod
+    window.onscroll = activeMethod
+    
+    #start up the timer for away with default 3 seconds
+    @setAwayTimeout(3000)
   
   onActive: () ->
-    @awayTimestamp = 0
-    @awayNow = false
+    @awayTimestamp = new Date().getTime() + @awayTimeout
     if(@awayNow)
+      @awayNow = false
       try
+        @setAwayTimeout(@awayTimeout)
         if(@onAwayBack)
-          activity.onAway()
+          @onAwayBack()
       catch err
       
   setAwayTimeout: (ms) ->
     @awayTimeout = ms
     @awayTimestamp = new Date().getTime() + ms
     if (@awayTimer != null) 
-      clearTimeout @awayTimer
+      clearInterval @awayTimer
     activity = this
-    @awayTimer = setTimeout (->
-      activity.setAway(activity)), ms + 50
+    @awayTimer = setInterval (->
+      activity.setAway()), ms + 50
     
     
-  setAway: (activity) ->
+  setAway: () ->
     t = new Date().getTime()
-    if (t < activity.awayTimestamp)
+    if (t < @awayTimestamp)
+      @awayNow = false
       #not away yet
-      activity.awayTimer = setTimeout(activity.setAway, ms - 50)
+      #console.log('Not away yet. Away in ' + (@awayTimestamp - t + 50));
+      #@awayTimer = setInterval(@setAway, ms + 50)
       return
     
-    #away now    
-    activity.awayNow = true    
+    #away now
+    if (@awayTimer != null) 
+      clearInterval @awayTimer 
+    @awayNow = true    
     try
-      if(activity.onAway)
-        activity.onAway()
+      if(@onAway)
+        @onAway()
     catch err
-    
+
+window.Activity = Activity

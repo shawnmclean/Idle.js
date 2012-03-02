@@ -4,11 +4,27 @@
 		<script src="../lib/activity.js"></script>
 		
 		<script>
-			var activity = new Activity();
-			activity.onAway = function(){
-				alert("away");
+			var awayCallback = function(){
+				console.log("away");
 			};
-			activity.setAwayTimeout(1000);
+			
+			var awayBackCallback = function(){
+				console.log("back");
+			};
+		
+			//this is one way of using it.
+			/*
+			var activity = new Activity();
+			activity.onAway = awayCallback;
+			activity.onAwayBack = awayBackCallback;
+			activity.setAwayTimeout(2000);
+			*/
+			//this is another way of using it
+			var activity = new Activity({
+				onAway: awayCallback,
+				onAwayBack: awayBackCallback,
+				awayTimeout: 3000
+			});
 		</script>
 	</head>
 	<body>
