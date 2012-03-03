@@ -1,3 +1,4 @@
+#Activity.js main class
 
 Activity = { }
 class Activity
@@ -49,7 +50,7 @@ class Activity
       clearInterval @awayTimer
     activity = this
     @awayTimer = setInterval (->
-      activity.setAway()), ms + 50
+      activity.setAway()), ms
     
     
   setAway: () ->
@@ -57,8 +58,7 @@ class Activity
     if (t < @awayTimestamp)
       @awayNow = false
       #not away yet
-      #console.log('Not away yet. Away in ' + (@awayTimestamp - t + 50));
-      #@awayTimer = setInterval(@setAway, ms + 50)
+      #console.log('Not away yet. Away in ' + (@awayTimestamp - t));
       return
     
     #away now
