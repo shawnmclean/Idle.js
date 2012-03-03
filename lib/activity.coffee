@@ -16,7 +16,7 @@ class Activity
   # @param (Object) options
   constructor: (options) ->
     if(options)
-      @awayTimeout = options.awayTimeout
+      @awayTimeout = parseInt options.awayTimeout, 10
       @onAway = options.onAway
       @onAwayBack = options.onAwayBack
     
@@ -50,7 +50,7 @@ class Activity
       activity.setAway()), @awayTimeout
       
   setAwayTimeout: (ms) ->
-    @awayTimeout = ms
+    @awayTimeout = parseInt ms, 10
     @startAwayTimeout()
     
   setAway: () ->
