@@ -1,7 +1,7 @@
-all: activity.min.js
+all: idle.min.js
 
-activity.min.js: activity.js
-	uglifyjs ./lib/activity.js > ./lib/activity.min.js
+idle.min.js: idle.js
+	uglifyjs ./lib/idle.js > ./lib/idle.min.js
 
-activity.js: ./lib/activity.coffee
-	coffee -c ./lib/activity.coffee
+idle.js: ./lib/idle.coffee
+	coffee -c ./lib/idle.coffee
