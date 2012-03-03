@@ -5,11 +5,11 @@
 		
 		<script>
 			var awayCallback = function(){
-				console.log("away");
+				console.log(new Date().toTimeString() + ": away");
 			};
 			
 			var awayBackCallback = function(){
-				console.log("back");
+				console.log(new Date().toTimeString() + ": back");
 			};
 		
 			//this is one way of using it.
@@ -23,7 +23,7 @@
 			var activity = new Activity({
 				onAway: awayCallback,
 				onAwayBack: awayBackCallback,
-				awayTimeout: 3000
+				awayTimeout: 5000 //away with 5 seconds of inactivity
 			});
 		</script>
 	</head>
