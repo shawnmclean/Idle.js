@@ -3,7 +3,8 @@
 Activity = { }
 class Activity
   @awayNow: false
-  @awayTimeout: 0
+  #set default timeout to 3 seconds
+  @awayTimeout: 3000
   @awayTimestamp: 0
   @awayTimer: null
   
@@ -30,44 +31,40 @@ class Activity
     window.onkeydown = activeMethod
     window.onscroll = activeMethod
     
-    #start up the timer for away with default 3 seconds
-    @setAwayTimeout(3000)
+    @startAwayTimeout()
   
   onActive: () ->
     @awayTimestamp = new Date().getTime() + @awayTimeout
     if(@awayNow)
       @awayNow = false
-      try
-        @setAwayTimeout(@awayTimeout)
-        if(@onAwayBack)
-          @onAwayBack()
-      catch err
-      
-  setAwayTimeout: (ms) ->
-    @awayTimeout = ms
-    @awayTimestamp = new Date().getTime() + ms
+      @setAwayTimeout(@awayTimeout)
+      if(@onAwayBack)
+        @onAwayBack()
+  
+  startAwayTimeout: () ->
+    @awayTimestamp = new Date().getTime() + @awayTimeout
     if (@awayTimer != null) 
       clearInterval @awayTimer
     activity = this
     @awayTimer = setInterval (->
-      activity.setAway()), ms
-    
+      activity.setAway()), @awayTimeout
+      
+  setAwayTimeout: (ms) ->
+    @awayTimeout = ms
+    @startAwayTimeout()
     
   setAway: () ->
     t = new Date().getTime()
     if (t < @awayTimestamp)
       @awayNow = false
       #not away yet
-      #console.log('Not away yet. Away in ' + (@awayTimestamp - t));
       return
     
     #away now
     if (@awayTimer != null) 
       clearInterval @awayTimer 
-    @awayNow = true    
-    try
-      if(@onAway)
-        @onAway()
-    catch err
+    @awayNow = true
+    if(@onAway)
+      @onAway()
 
 window.Activity = Activity
