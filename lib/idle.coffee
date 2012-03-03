@@ -1,7 +1,7 @@
 #Activity.js main class
 
-Activity = { }
-class Activity
+Idle = { }
+class Idle
   @awayNow: false
   #set default timeout to 3 seconds
   @awayTimeout: 3000
@@ -67,4 +67,4 @@ class Activity
     if(@onAway)
       @onAway()
 
-window.Activity = Activity
+window.Idle = Idle

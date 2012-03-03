@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<title>Activity.Js Test</title>
-		<script src="../lib/activity.js"></script>
+		<script src="../lib/idle.js"></script>
 		
 		<script>
 			var awayCallback = function(){
@@ -14,13 +14,13 @@
 		
 			//this is one way of using it.
 			/*
-			var activity = new Activity();
-			activity.onAway = awayCallback;
-			activity.onAwayBack = awayBackCallback;
-			activity.setAwayTimeout(2000);
+			var idle = new Idle();
+			idle.onAway = awayCallback;
+			idle.onAwayBack = awayBackCallback;
+			idle.setAwayTimeout(2000);
 			*/
 			//this is another way of using it
-			var activity = new Activity({
+			var idle = new Idle({
 				onAway: awayCallback,
 				onAwayBack: awayBackCallback,
 				awayTimeout: 5000 //away with 5 seconds of inactivity
