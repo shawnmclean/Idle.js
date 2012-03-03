@@ -1,8 +1,8 @@
 <html>
 	<head>
-		<title>Activity.Js Test</title>
+		<title>Idle.Js Test</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-		<script src="./lib/activity.js"></script>
+		<script src="./lib/idle.js"></script>
 		<script>
 			$(function() {
 				function setMessage(msg) {
@@ -15,7 +15,7 @@
 				var awayBackCallback = function() {
 					setMessage("back");
 				};
-				var activity = new Activity({
+				var idle = new Idle({
 					onAway : awayCallback,
 					onAwayBack : awayBackCallback,
 					awayTimeout : $('#Timeout').val() //away with default value of the textbox
@@ -26,7 +26,7 @@
 
 						var timeout = $(this).val();
 						setMessage("Timeout changed to: " + timeout);
-						activity.setAwayTimeout(timeout);
+						idle.setAwayTimeout(timeout);
 					}
 				})
 			});
