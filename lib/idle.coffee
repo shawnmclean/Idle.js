@@ -2,7 +2,7 @@
 
 Idle = { }
 class Idle
-  @awayNow: false
+  @isAway: false
   #set default timeout to 3 seconds
   @awayTimeout: 3000
   @awayTimestamp: 0
@@ -35,8 +35,8 @@ class Idle
   
   onActive: () ->
     @awayTimestamp = new Date().getTime() + @awayTimeout
-    if(@awayNow)
-      @awayNow = false
+    if(@isAway)
+      @isAway = false
       @setAwayTimeout(@awayTimeout)
       if(@onAwayBack)
         @onAwayBack()
@@ -56,14 +56,14 @@ class Idle
   setAway: () ->
     t = new Date().getTime()
     if (t < @awayTimestamp)
-      @awayNow = false
+      @isAway = false
       #not away yet
       return
     
     #away now
     if (@awayTimer != null) 
       clearInterval @awayTimer 
-    @awayNow = true
+    @isAway = true
     if(@onAway)
       @onAway()
 
