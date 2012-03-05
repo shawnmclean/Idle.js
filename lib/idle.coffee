@@ -46,8 +46,9 @@ class Idle
     if (@awayTimer != null) 
       clearInterval @awayTimer
     activity = this
+    #added 100ms to the interval to allow setAway to trigger if called within that range  
     @awayTimer = setInterval (->
-      activity.setAway()), @awayTimeout
+      activity.setAway()), @awayTimeout + 100
       
   setAwayTimeout: (ms) ->
     @awayTimeout = parseInt ms, 10
