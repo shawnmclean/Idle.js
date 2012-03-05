@@ -2,7 +2,7 @@
 
 Idle = { }
 class Idle
-  @awayNow: false
+  @isAway: false
   #set default timeout to 3 seconds
   @awayTimeout: 3000
   @awayTimestamp: 0
@@ -35,8 +35,8 @@ class Idle
   
   onActive: () ->
     @awayTimestamp = new Date().getTime() + @awayTimeout
-    if(@awayNow)
-      @awayNow = false
+    if(@isAway)
+      @isAway = false
       @setAwayTimeout(@awayTimeout)
       if(@onAwayBack)
         @onAwayBack()
@@ -46,8 +46,9 @@ class Idle
     if (@awayTimer != null) 
       clearInterval @awayTimer
     activity = this
+    #added 100ms to the interval to allow setAway to trigger if called within that range  
     @awayTimer = setInterval (->
-      activity.setAway()), @awayTimeout
+      activity.setAway()), @awayTimeout + 100
       
   setAwayTimeout: (ms) ->
     @awayTimeout = parseInt ms, 10
@@ -56,14 +57,14 @@ class Idle
   setAway: () ->
     t = new Date().getTime()
     if (t < @awayTimestamp)
-      @awayNow = false
+      @isAway = false
       #not away yet
       return
     
     #away now
     if (@awayTimer != null) 
       clearInterval @awayTimer 
-    @awayNow = true
+    @isAway = true
     if(@onAway)
       @onAway()
 
