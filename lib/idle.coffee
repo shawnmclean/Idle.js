@@ -1,4 +1,4 @@
-#Activity.js main class
+#Idle.js main class
 
 Idle = { }
 class Idle
@@ -33,21 +33,26 @@ class Idle
     
     @startAwayTimeout()
   
-  onActive: () ->
+  onActive: () ->    
     @awayTimestamp = new Date().getTime() + @awayTimeout
     if(@isAway)
-      @isAway = false
-      @setAwayTimeout(@awayTimeout)
+      #trigger callback for the user coming back from being away
       if(@onAwayBack)
         @onAwayBack()
+      #reset the away timeout.
+      @startAwayTimeout()
+    #ensure that the state is not away        
+    @isAway = false
+    #return true for the event.
+    return true
   
   startAwayTimeout: () ->
     @awayTimestamp = new Date().getTime() + @awayTimeout
     if (@awayTimer != null) 
-      clearInterval @awayTimer
-    activity = this
-    #added 100ms to the interval to allow setAway to trigger if called within that range  
-    @awayTimer = setInterval (->
+      clearTimeout @awayTimer
+    activity = this 
+    #give the timer a 100ms delay
+    @awayTimer = setTimeout (->
       activity.setAway()), @awayTimeout + 100
       
   setAwayTimeout: (ms) ->
@@ -58,12 +63,15 @@ class Idle
     t = new Date().getTime()
     if (t < @awayTimestamp)
       @isAway = false
-      #not away yet
+      #not away yet, reset the timer with current awaytimestamp - current time with the 100ms delay
+      activity = this 
+      @awayTimer = setTimeout (->
+        activity.setAway()), @awayTimestamp - t + 100
       return
     
     #away now
     if (@awayTimer != null) 
-      clearInterval @awayTimer 
+      clearTimeout @awayTimer 
     @isAway = true
     if(@onAway)
       @onAway()
