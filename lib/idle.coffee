@@ -8,8 +8,13 @@ class Idle
   @awayTimestamp: 0
   @awayTimer: null
   
+  #events for monitoring user activity on the page
   @onAway: null
   @onAwayBack: null
+  
+  #events for the visibility API
+  @onVisible: null
+  @onHidden: null
   
   #Initialize the class
   #
@@ -19,6 +24,8 @@ class Idle
       @awayTimeout = parseInt options.awayTimeout, 10
       @onAway = options.onAway
       @onAwayBack = options.onAwayBack
+      @onVisible = options.onVisible
+      @onHidden = options.onHidden
     
     #object to be accessed in the events that will be called by window.
     activity = this
@@ -29,9 +36,17 @@ class Idle
     window.onmousemove = activeMethod
     window.onmouseenter = activeMethod
     window.onkeydown = activeMethod
-    window.onscroll = activeMethod
-    
+    window.onscroll = activeMethod    
     @startAwayTimeout()
+    
+    #setup events for page visibility api
+    document.addEventListener "visibilitychange", (->
+      activity.handleVisibilityChange()), false
+    document.addEventListener "webkitvisibilitychange", (->
+      activity.handleVisibilityChange()), false
+    document.addEventListener "msvisibilitychange", (->
+      activity.handleVisibilityChange()), false
+    
   
   onActive: () ->    
     @awayTimestamp = new Date().getTime() + @awayTimeout
@@ -53,20 +68,20 @@ class Idle
     activity = this 
     #give the timer a 100ms delay
     @awayTimer = setTimeout (->
-      activity.setAway()), @awayTimeout + 100
+      activity.checkAway()), @awayTimeout + 100
       
   setAwayTimeout: (ms) ->
     @awayTimeout = parseInt ms, 10
     @startAwayTimeout()
     
-  setAway: () ->
+  checkAway: () ->
     t = new Date().getTime()
     if (t < @awayTimestamp)
       @isAway = false
       #not away yet, reset the timer with current awaytimestamp - current time with the 100ms delay
       activity = this 
       @awayTimer = setTimeout (->
-        activity.setAway()), @awayTimestamp - t + 100
+        activity.checkAway()), @awayTimestamp - t + 100
       return
     
     #away now
@@ -75,5 +90,13 @@ class Idle
     @isAway = true
     if(@onAway)
       @onAway()
-
+  
+  handleVisibilityChange: () ->
+    #check for hidden for various browsers
+    if(document.hidden || document.msHidden || document.webkitHidden)
+      if(@onHidden)
+        @onHidden()
+    else
+      if(@onVisible)
+        @onVisible()
 window.Idle = Idle
