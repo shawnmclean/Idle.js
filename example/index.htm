@@ -11,7 +11,13 @@
 			var awayBackCallback = function(){
 				console.log(new Date().toTimeString() + ": back");
 			};
-		
+			var onVisibleCallback = function(){
+				console.log(new Date().toTimeString() + ": now looking at page");
+			};
+			
+			var onHiddenCallback = function(){
+				console.log(new Date().toTimeString() + ": not looking at page");
+			};
 			//this is one way of using it.
 			/*
 			var idle = new Idle();
@@ -21,6 +27,8 @@
 			*/
 			//this is another way of using it
 			var idle = new Idle({
+				onHidden: onHiddenCallback,
+				onVisible: onVisibleCallback,
 				onAway: awayCallback,
 				onAwayBack: awayBackCallback,
 				awayTimeout: 5000 //away with 5 seconds of inactivity
