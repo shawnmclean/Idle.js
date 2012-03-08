@@ -1,0 +1,62 @@
+
+<html>
+	<head>
+		<title>Idle.Js Test</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script src="./lib/idle.js"></script>
+		<script>
+			$(function() {
+				function setMessage(msg) {
+					$('#ActivityList').append("<li>" + new Date().toTimeString() + ": " + msg + "</li>");
+				}
+
+				var awayCallback = function() {
+					setMessage("away");
+				};
+				var awayBackCallback = function() {
+					setMessage("back");
+				};
+				var hiddenCallback = function() {
+					setMessage("User is not looking at page");
+				};
+				var visibleCallback = function(){
+					setMessage("User started looking at page again")
+				};
+				
+				var idle = new Idle({
+					onHidden : hiddenCallback,
+					onVisible : visibleCallback,
+					onAway : awayCallback,
+					onAwayBack : awayBackCallback,
+					awayTimeout : $('#Timeout').val() //away with default value of the textbox
+				});
+
+				$('#Timeout').keydown(function(e) {
+					if(e.keyCode == 13) {
+
+						var timeout = $(this).val();
+						setMessage("Timeout changed to: " + timeout);
+						idle.setAwayTimeout(timeout);
+					}
+				})
+			});
+
+		</script>
+		<style>
+			#ActivityList {
+				border: 1px solid #ccc;
+				padding: 5px;
+				width: 400px;
+			}
+			#ActivityList li {
+				border-bottom: 1px solid #eee;
+				margin: 5px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<label for="Timeout">Set timeout</label>
+		<input id="Timeout" type="text" value="5000" />
+		<ul id="ActivityList"></ul>
+	</body>
+</html>
