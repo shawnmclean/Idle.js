@@ -36,7 +36,8 @@ class Idle
     window.onmousemove = activeMethod
     window.onmouseenter = activeMethod
     window.onkeydown = activeMethod
-    window.onscroll = activeMethod    
+    window.onscroll = activeMethod
+    window.onmousewheel = activeMethod
     @startAwayTimeout()
     
     #setup events for page visibility api
