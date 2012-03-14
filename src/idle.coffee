@@ -2,19 +2,19 @@
 
 Idle = { }
 class Idle
-  isAway: false
+  @isAway: false
   #set default timeout to 3 seconds
-  awayTimeout: 3000
-  awayTimestamp: 0
-  awayTimer: null
+  @awayTimeout: 3000
+  @awayTimestamp: 0
+  @awayTimer: null
   
   #events for monitoring user activity on the page
-  onAway: null
-  onAwayBack: null
+  @onAway: null
+  @onAwayBack: null
   
   #events for the visibility API
-  onVisible: null
-  onHidden: null
+  @onVisible: null
+  @onHidden: null
   
   #Initialize the class
   #
