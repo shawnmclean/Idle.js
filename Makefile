@@ -1,4 +1,8 @@
-all: idle.min.js
+all: idle.min.js test
+
+test: ./test/tests.coffee
+	coffee -c ./test/
+
 
 idle.min.js: idle.js
 	uglifyjs ./lib/idle.js > ./lib/idle.min.js
