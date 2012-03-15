@@ -1,1 +1,3 @@
-alert 'test'
+module("Idle.js", {
+})
+
