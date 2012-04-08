@@ -1,12 +1,19 @@
-Idle.Js
-=======
+# Idle.Js
 
-library to tell activity of user in browser (away, idle, not looking at webpage, etc)
+## NuGet
+
+Visual Studio users can install this directly into their web projects by executing the following command in the [Package Manager Console](http://docs.nuget.org/docs/start-here/using-the-package-manager-console)
+
+    PM> Install-Package Idle.js
+
+## Description
+
+Tiny javascript library to report activity of user in the browser (away, idle, not looking at webpage, etc). that is independent of any other javascript libraries such as jquery.
 
 You can view the demo [here.](http://mixmasterxp.github.com/Idle.js/)
 
-Changelog
-=========
+
+## Changelog
 
 0.0.2 (7-03-12) - Added 2 events for the visibility API. Now detects when is a user changes tabs or returns.
 
