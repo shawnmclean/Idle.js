@@ -5,7 +5,7 @@ test: ./test/tests.coffee
 
 
 idle.min.js: idle.js
-	uglifyjs ./lib/idle.js > ./lib/idle.min.js
+	uglifyjs ./build/idle.js > ./build/idle.min.js
 
 idle.js: ./src/idle.coffee
-	coffee -c -o ./src/idle.coffee ./lib/
+	coffee -c -o ./src/idle.coffee ./build/
