@@ -1,4 +1,4 @@
-# Idle.Js
+# Idle.Js [![Build Status](https://travis-ci.org/shawnmclean/Idle.js.png?branch=master)](https://travis-ci.org/shawnmclean/Idle.js)
 
 ## NuGet
 
