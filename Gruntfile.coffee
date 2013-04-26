@@ -20,4 +20,5 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   
   # Default task(s).
-  grunt.registerTask 'default', ['coffee', 'uglify']
+  grunt.registerTask 'build', ['coffee', 'uglify']
+  grunt.registerTask 'default', 'build'
