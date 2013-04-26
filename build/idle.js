@@ -4,7 +4,6 @@
   Idle = {};
 
   Idle = (function() {
-
     Idle.isAway = false;
 
     Idle.awayTimeout = 3000;
@@ -23,6 +22,7 @@
 
     function Idle(options) {
       var activeMethod, activity;
+
       if (options) {
         this.awayTimeout = parseInt(options.awayTimeout, 10);
         this.onAway = options.onAway;
@@ -55,7 +55,9 @@
     Idle.prototype.onActive = function() {
       this.awayTimestamp = new Date().getTime() + this.awayTimeout;
       if (this.isAway) {
-        if (this.onAwayBack) this.onAwayBack();
+        if (this.onAwayBack) {
+          this.onAwayBack();
+        }
         this.startAwayTimeout();
       }
       this.isAway = false;
@@ -64,8 +66,11 @@
 
     Idle.prototype.startAwayTimeout = function() {
       var activity;
+
       this.awayTimestamp = new Date().getTime() + this.awayTimeout;
-      if (this.awayTimer !== null) clearTimeout(this.awayTimer);
+      if (this.awayTimer !== null) {
+        clearTimeout(this.awayTimer);
+      }
       activity = this;
       return this.awayTimer = setTimeout((function() {
         return activity.checkAway();
@@ -79,6 +84,7 @@
 
     Idle.prototype.checkAway = function() {
       var activity, t;
+
       t = new Date().getTime();
       if (t < this.awayTimestamp) {
         this.isAway = false;
@@ -88,16 +94,24 @@
         }), this.awayTimestamp - t + 100);
         return;
       }
-      if (this.awayTimer !== null) clearTimeout(this.awayTimer);
+      if (this.awayTimer !== null) {
+        clearTimeout(this.awayTimer);
+      }
       this.isAway = true;
-      if (this.onAway) return this.onAway();
+      if (this.onAway) {
+        return this.onAway();
+      }
     };
 
     Idle.prototype.handleVisibilityChange = function() {
       if (document.hidden || document.msHidden || document.webkitHidden) {
-        if (this.onHidden) return this.onHidden();
+        if (this.onHidden) {
+          return this.onHidden();
+        }
       } else {
-        if (this.onVisible) return this.onVisible();
+        if (this.onVisible) {
+          return this.onVisible();
+        }
       }
     };
 
