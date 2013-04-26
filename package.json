@@ -5,5 +5,17 @@
     "grunt": "~0.4.1",
     "grunt-contrib-coffee": "~0.7.0",
     "grunt-contrib-uglify": "~0.2.0"
-  }
+  },
+  "keywords": [
+    "idle",
+    "away"
+  ],
+  "author": {
+    "name": "Shawn Mclean",
+    "url": "http://www.shawnmclean.com/blog/portfolio/idle-js/"
+  },
+  "contributors": [
+    { "name": "Faruk Ates" }
+  ],
+  "license": "Apache 2.0"
 }
