@@ -29,5 +29,7 @@ RCS
 RCSLOG
 SCCS
 _$*
+.project
+.bundle/*
 /node_modules/
 /vendor/
