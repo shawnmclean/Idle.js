@@ -13,12 +13,16 @@ module.exports = (grunt) ->
       compile:
         files:
           'build/idle.js':'src/*.coffee'
+          'test/tests.js':'test/*.coffee'
+    qunit:
+      all: ['test/*.htm']
 
   
   # Load the plugins
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
+  grunt.loadNpmTasks 'grunt-contrib-qunit'
   
   # Default task(s).
-  grunt.registerTask 'build', ['coffee', 'uglify']
+  grunt.registerTask 'build', ['coffee', 'uglify', 'qunit']
   grunt.registerTask 'default', 'build'

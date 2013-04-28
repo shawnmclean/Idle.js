@@ -4,7 +4,8 @@
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-coffee": "~0.7.0",
-    "grunt-contrib-uglify": "~0.2.0"
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-qunit": "~0.2.1"
   },
   "keywords": [
     "idle",
@@ -15,7 +16,9 @@
     "url": "http://www.shawnmclean.com/blog/portfolio/idle-js/"
   },
   "contributors": [
-    { "name": "Shawn Mclean" }
+    {
+      "name": "Shawn Mclean"
+    }
   ],
   "license": "Apache 2.0"
 }

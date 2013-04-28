@@ -24,6 +24,7 @@
 			idle.onAway = awayCallback;
 			idle.onAwayBack = awayBackCallback;
 			idle.setAwayTimeout(2000);
+			idle.start();
 			*/
 			//this is another way of using it
 			var idle = new Idle({
@@ -32,7 +33,7 @@
 				onAway: awayCallback,
 				onAwayBack: awayBackCallback,
 				awayTimeout: 5000 //away with 5 seconds of inactivity
-			});
+			}).start();
 		</script>
 	</head>
 	<body>
