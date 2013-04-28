@@ -1,5 +1,5 @@
 #Idle.js main class
-
+"use strict"
 Idle = { }
 class Idle
   @isAway: false
@@ -38,7 +38,6 @@ class Idle
     window.onkeydown = activeMethod
     window.onscroll = activeMethod
     window.onmousewheel = activeMethod
-    @startAwayTimeout()
     
     #setup events for page visibility api
     document.addEventListener "visibilitychange", (->
@@ -62,7 +61,7 @@ class Idle
     #return true for the event.
     return true
   
-  startAwayTimeout: () ->
+  start: () ->
     @awayTimestamp = new Date().getTime() + @awayTimeout
     if (@awayTimer != null) 
       clearTimeout @awayTimer
@@ -70,10 +69,11 @@ class Idle
     #give the timer a 100ms delay
     @awayTimer = setTimeout (->
       activity.checkAway()), @awayTimeout + 100
+    @
       
   setAwayTimeout: (ms) ->
     @awayTimeout = parseInt ms, 10
-    @startAwayTimeout()
+    @
     
   checkAway: () ->
     t = new Date().getTime()

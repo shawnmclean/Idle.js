@@ -1,4 +1,5 @@
 (function() {
+  "use strict";
   var Idle;
 
   Idle = {};
@@ -40,7 +41,6 @@
       window.onkeydown = activeMethod;
       window.onscroll = activeMethod;
       window.onmousewheel = activeMethod;
-      this.startAwayTimeout();
       document.addEventListener("visibilitychange", (function() {
         return activity.handleVisibilityChange();
       }), false);
@@ -64,7 +64,7 @@
       return true;
     };
 
-    Idle.prototype.startAwayTimeout = function() {
+    Idle.prototype.start = function() {
       var activity;
 
       this.awayTimestamp = new Date().getTime() + this.awayTimeout;
@@ -72,14 +72,15 @@
         clearTimeout(this.awayTimer);
       }
       activity = this;
-      return this.awayTimer = setTimeout((function() {
+      this.awayTimer = setTimeout((function() {
         return activity.checkAway();
       }), this.awayTimeout + 100);
+      return this;
     };
 
     Idle.prototype.setAwayTimeout = function(ms) {
       this.awayTimeout = parseInt(ms, 10);
-      return this.startAwayTimeout();
+      return this;
     };
 
     Idle.prototype.checkAway = function() {
