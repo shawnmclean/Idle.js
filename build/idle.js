@@ -23,7 +23,6 @@
 
     function Idle(options) {
       var activeMethod, activity;
-
       if (options) {
         this.awayTimeout = parseInt(options.awayTimeout, 10);
         this.onAway = options.onAway;
@@ -58,7 +57,7 @@
         if (this.onAwayBack) {
           this.onAwayBack();
         }
-        this.startAwayTimeout();
+        this.start();
       }
       this.isAway = false;
       return true;
@@ -66,7 +65,6 @@
 
     Idle.prototype.start = function() {
       var activity;
-
       this.awayTimestamp = new Date().getTime() + this.awayTimeout;
       if (this.awayTimer !== null) {
         clearTimeout(this.awayTimer);
@@ -85,7 +83,6 @@
 
     Idle.prototype.checkAway = function() {
       var activity, t;
-
       t = new Date().getTime();
       if (t < this.awayTimestamp) {
         this.isAway = false;

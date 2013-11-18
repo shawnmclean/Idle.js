@@ -55,7 +55,7 @@ class Idle
       if(@onAwayBack)
         @onAwayBack()
       #reset the away timeout.
-      @startAwayTimeout()
+      @start()
     #ensure that the state is not away        
     @isAway = false
     #return true for the event.
