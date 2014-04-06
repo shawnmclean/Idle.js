@@ -40,15 +40,12 @@
       window.onkeydown = activeMethod;
       window.onscroll = activeMethod;
       window.onmousewheel = activeMethod;
-      document.addEventListener("visibilitychange", (function() {
+      this.listener = (function() {
         return activity.handleVisibilityChange();
-      }), false);
-      document.addEventListener("webkitvisibilitychange", (function() {
-        return activity.handleVisibilityChange();
-      }), false);
-      document.addEventListener("msvisibilitychange", (function() {
-        return activity.handleVisibilityChange();
-      }), false);
+      });
+      document.addEventListener("visibilitychange", this.listener, false);
+      document.addEventListener("webkitvisibilitychange", this.listener, false);
+      document.addEventListener("msvisibilitychange", this.listener, false);
     }
 
     Idle.prototype.onActive = function() {
@@ -73,6 +70,18 @@
       this.awayTimer = setTimeout((function() {
         return activity.checkAway();
       }), this.awayTimeout + 100);
+      return this;
+    };
+
+    Idle.prototype.stop = function() {
+      if (this.awayTimer !== null) {
+        clearTimeout(this.awayTimer);
+      }
+      if (this.listener !== null) {
+        document.removeEventListener("visibilitychange", this.listener);
+        document.removeEventListener("webkitvisibilitychange", this.listener);
+        document.removeEventListener("msvisibilitychange", this.listener);
+      }
       return this;
     };
 
