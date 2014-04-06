@@ -43,9 +43,6 @@
       this.listener = (function() {
         return activity.handleVisibilityChange();
       });
-      document.addEventListener("visibilitychange", this.listener, false);
-      document.addEventListener("webkitvisibilitychange", this.listener, false);
-      document.addEventListener("msvisibilitychange", this.listener, false);
     }
 
     Idle.prototype.onActive = function() {
@@ -62,6 +59,9 @@
 
     Idle.prototype.start = function() {
       var activity;
+      document.addEventListener("visibilitychange", this.listener, false);
+      document.addEventListener("webkitvisibilitychange", this.listener, false);
+      document.addEventListener("msvisibilitychange", this.listener, false);
       this.awayTimestamp = new Date().getTime() + this.awayTimeout;
       if (this.awayTimer !== null) {
         clearTimeout(this.awayTimer);

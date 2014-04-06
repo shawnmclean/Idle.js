@@ -41,9 +41,6 @@ class Idle
 
     #setup events for page visibility api
     @listener = (-> activity.handleVisibilityChange())
-    document.addEventListener "visibilitychange", @listener, false
-    document.addEventListener "webkitvisibilitychange", @listener, false
-    document.addEventListener "msvisibilitychange", @listener, false
 
 
   onActive: () ->
@@ -60,6 +57,9 @@ class Idle
     return true
 
   start: () ->
+    document.addEventListener "visibilitychange", @listener, false
+    document.addEventListener "webkitvisibilitychange", @listener, false
+    document.addEventListener "msvisibilitychange", @listener, false
     @awayTimestamp = new Date().getTime() + @awayTimeout
     if (@awayTimer != null)
       clearTimeout @awayTimer
