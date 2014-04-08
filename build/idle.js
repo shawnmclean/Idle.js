@@ -23,7 +23,6 @@
 
     function Idle(options) {
       var activeMethod, activity;
-
       if (options) {
         this.awayTimeout = parseInt(options.awayTimeout, 10);
         this.onAway = options.onAway;
@@ -41,15 +40,9 @@
       window.onkeydown = activeMethod;
       window.onscroll = activeMethod;
       window.onmousewheel = activeMethod;
-      document.addEventListener("visibilitychange", (function() {
+      this.listener = (function() {
         return activity.handleVisibilityChange();
-      }), false);
-      document.addEventListener("webkitvisibilitychange", (function() {
-        return activity.handleVisibilityChange();
-      }), false);
-      document.addEventListener("msvisibilitychange", (function() {
-        return activity.handleVisibilityChange();
-      }), false);
+      });
     }
 
     Idle.prototype.onActive = function() {
@@ -58,7 +51,7 @@
         if (this.onAwayBack) {
           this.onAwayBack();
         }
-        this.startAwayTimeout();
+        this.start();
       }
       this.isAway = false;
       return true;
@@ -66,7 +59,9 @@
 
     Idle.prototype.start = function() {
       var activity;
-
+      document.addEventListener("visibilitychange", this.listener, false);
+      document.addEventListener("webkitvisibilitychange", this.listener, false);
+      document.addEventListener("msvisibilitychange", this.listener, false);
       this.awayTimestamp = new Date().getTime() + this.awayTimeout;
       if (this.awayTimer !== null) {
         clearTimeout(this.awayTimer);
@@ -78,6 +73,18 @@
       return this;
     };
 
+    Idle.prototype.stop = function() {
+      if (this.awayTimer !== null) {
+        clearTimeout(this.awayTimer);
+      }
+      if (this.listener !== null) {
+        document.removeEventListener("visibilitychange", this.listener);
+        document.removeEventListener("webkitvisibilitychange", this.listener);
+        document.removeEventListener("msvisibilitychange", this.listener);
+      }
+      return this;
+    };
+
     Idle.prototype.setAwayTimeout = function(ms) {
       this.awayTimeout = parseInt(ms, 10);
       return this;
@@ -85,7 +92,6 @@
 
     Idle.prototype.checkAway = function() {
       var activity, t;
-
       t = new Date().getTime();
       if (t < this.awayTimestamp) {
         this.isAway = false;

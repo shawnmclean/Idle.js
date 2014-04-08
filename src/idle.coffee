@@ -7,15 +7,15 @@ class Idle
   @awayTimeout: 3000
   @awayTimestamp: 0
   @awayTimer: null
-  
+
   #events for monitoring user activity on the page
   @onAway: null
   @onAwayBack: null
-  
+
   #events for the visibility API
   @onVisible: null
   @onHidden: null
-  
+
   #Initialize the class
   #
   # @param (Object) options
@@ -26,7 +26,7 @@ class Idle
       @onAwayBack = options.onAwayBack
       @onVisible = options.onVisible
       @onHidden = options.onHidden
-    
+
     #object to be accessed in the events that will be called by window.
     activity = this
     activeMethod = () ->
@@ -38,60 +38,67 @@ class Idle
     window.onkeydown = activeMethod
     window.onscroll = activeMethod
     window.onmousewheel = activeMethod
-    
+
     #setup events for page visibility api
-    document.addEventListener "visibilitychange", (->
-      activity.handleVisibilityChange()), false
-    document.addEventListener "webkitvisibilitychange", (->
-      activity.handleVisibilityChange()), false
-    document.addEventListener "msvisibilitychange", (->
-      activity.handleVisibilityChange()), false
-    
-  
-  onActive: () ->    
+    @listener = (-> activity.handleVisibilityChange())
+
+
+  onActive: () ->
     @awayTimestamp = new Date().getTime() + @awayTimeout
     if(@isAway)
       #trigger callback for the user coming back from being away
       if(@onAwayBack)
         @onAwayBack()
       #reset the away timeout.
-      @startAwayTimeout()
-    #ensure that the state is not away        
+      @start()
+    #ensure that the state is not away
     @isAway = false
     #return true for the event.
     return true
-  
+
   start: () ->
+    document.addEventListener "visibilitychange", @listener, false
+    document.addEventListener "webkitvisibilitychange", @listener, false
+    document.addEventListener "msvisibilitychange", @listener, false
     @awayTimestamp = new Date().getTime() + @awayTimeout
-    if (@awayTimer != null) 
+    if (@awayTimer != null)
       clearTimeout @awayTimer
-    activity = this 
+    activity = this
     #give the timer a 100ms delay
     @awayTimer = setTimeout (->
       activity.checkAway()), @awayTimeout + 100
     @
-      
+
+  stop: () ->
+    if (@awayTimer != null)
+      clearTimeout @awayTimer
+    if (@listener != null)
+      document.removeEventListener "visibilitychange", @listener
+      document.removeEventListener "webkitvisibilitychange", @listener
+      document.removeEventListener "msvisibilitychange", @listener
+    @
+
   setAwayTimeout: (ms) ->
     @awayTimeout = parseInt ms, 10
     @
-    
+
   checkAway: () ->
     t = new Date().getTime()
     if (t < @awayTimestamp)
       @isAway = false
       #not away yet, reset the timer with current awaytimestamp - current time with the 100ms delay
-      activity = this 
+      activity = this
       @awayTimer = setTimeout (->
         activity.checkAway()), @awayTimestamp - t + 100
       return
-    
+
     #away now
-    if (@awayTimer != null) 
-      clearTimeout @awayTimer 
+    if (@awayTimer != null)
+      clearTimeout @awayTimer
     @isAway = true
     if(@onAway)
       @onAway()
-  
+
   handleVisibilityChange: () ->
     #check for hidden for various browsers
     if(document.hidden || document.msHidden || document.webkitHidden)
