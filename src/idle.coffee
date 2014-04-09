@@ -1,3 +1,20 @@
+# IE8* fillers for document.addEventListener & removeEventListener
+if (!document.addEventListener)  # W3C DOM
+  if (document.attachEvent) # IE DOM
+    document.addEventListener = (event, callback, useCapture) ->
+      document.attachEvent("on" + event, callback, useCapture)
+  else # No-op to prevent error
+    document.addEventListener = () ->
+      {}
+if (!document.removeEventListener)  # W3C DOM
+  if (document.detachEvent) # IE DOM
+    document.removeEventListener = (event, callback) ->
+      document.detachEvent("on" + event, callback)
+  else # No-op to prevent error
+    document.removeEventListener = () ->
+      {}
+
+
 #Idle.js main class
 "use strict"
 Idle = { }
