@@ -39,10 +39,6 @@ class Idle
     window.onscroll = activeMethod
     window.onmousewheel = activeMethod
 
-    #setup events for page visibility api
-    @listener = (-> activity.handleVisibilityChange())
-
-
   onActive: () ->
     @awayTimestamp = new Date().getTime() + @awayTimeout
     if(@isAway)
@@ -57,9 +53,14 @@ class Idle
     return true
 
   start: () ->
-    document.addEventListener "visibilitychange", @listener, false
-    document.addEventListener "webkitvisibilitychange", @listener, false
-    document.addEventListener "msvisibilitychange", @listener, false
+
+    #setup events for page visibility api
+    if (!@listener)   # only once even if start was called multiple times without stop
+      @listener = (-> activity.handleVisibilityChange())
+      document.addEventListener "visibilitychange", @listener, false
+      document.addEventListener "webkitvisibilitychange", @listener, false
+      document.addEventListener "msvisibilitychange", @listener, false
+
     @awayTimestamp = new Date().getTime() + @awayTimeout
     if (@awayTimer != null)
       clearTimeout @awayTimer
@@ -76,6 +77,7 @@ class Idle
       document.removeEventListener "visibilitychange", @listener
       document.removeEventListener "webkitvisibilitychange", @listener
       document.removeEventListener "msvisibilitychange", @listener
+      @listener = null
     @
 
   setAwayTimeout: (ms) ->
