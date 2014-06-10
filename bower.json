@@ -1,0 +1,21 @@
+{
+    "name": "Idle.Js",
+    "version": "0.0.1",
+    "main": "build/idle.js",
+    "ignore": [
+        "example",
+        "src",
+        "text",
+        ".gitignore",
+        ".travis.yml",
+        "Gruntfile.coffee",
+        "LICENSE",
+        "README.md",
+        "package.json",
+        "index.htm",
+        "package.json"
+    ],
+    "dependencies": {
+    }
+}
+
