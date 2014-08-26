@@ -1,6 +1,32 @@
 (function() {
-  "use strict";
   var Idle;
+
+  /** IE8/old browser support **/
+  if (!document.addEventListener) {
+    if (document.attachEvent) {
+      document.addEventListener = function(event, callback, useCapture) {
+        return document.attachEvent("on" + event, callback, useCapture);
+      };
+    } else {
+      document.addEventListener = function() {
+        return {};
+      };
+    }
+  }
+
+  if (!document.removeEventListener) {
+    if (document.detachEvent) {
+      document.removeEventListener = function(event, callback) {
+        return document.detachEvent("on" + event, callback);
+      };
+    } else {
+      document.removeEventListener = function() {
+        return {};
+      };
+    }
+  }
+
+  "use strict";
 
   Idle = {};
 
@@ -40,9 +66,6 @@
       window.onkeydown = activeMethod;
       window.onscroll = activeMethod;
       window.onmousewheel = activeMethod;
-      this.listener = (function() {
-        return activity.handleVisibilityChange();
-      });
     }
 
     Idle.prototype.onActive = function() {
@@ -59,9 +82,14 @@
 
     Idle.prototype.start = function() {
       var activity;
-      document.addEventListener("visibilitychange", this.listener, false);
-      document.addEventListener("webkitvisibilitychange", this.listener, false);
-      document.addEventListener("msvisibilitychange", this.listener, false);
+      if (!this.listener) {
+        this.listener = (function() {
+          return activity.handleVisibilityChange();
+        });
+        document.addEventListener("visibilitychange", this.listener, false);
+        document.addEventListener("webkitvisibilitychange", this.listener, false);
+        document.addEventListener("msvisibilitychange", this.listener, false);
+      }
       this.awayTimestamp = new Date().getTime() + this.awayTimeout;
       if (this.awayTimer !== null) {
         clearTimeout(this.awayTimer);
@@ -81,6 +109,7 @@
         document.removeEventListener("visibilitychange", this.listener);
         document.removeEventListener("webkitvisibilitychange", this.listener);
         document.removeEventListener("msvisibilitychange", this.listener);
+        this.listener = null;
       }
       return this;
     };

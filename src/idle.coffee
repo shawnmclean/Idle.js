@@ -1,3 +1,20 @@
+# IE8* fillers for document.addEventListener & removeEventListener
+if (!document.addEventListener)  # W3C DOM
+  if (document.attachEvent) # IE DOM
+    document.addEventListener = (event, callback, useCapture) ->
+      document.attachEvent("on" + event, callback, useCapture)
+  else # No-op to prevent error
+    document.addEventListener = () ->
+      {}
+if (!document.removeEventListener)  # W3C DOM
+  if (document.detachEvent) # IE DOM
+    document.removeEventListener = (event, callback) ->
+      document.detachEvent("on" + event, callback)
+  else # No-op to prevent error
+    document.removeEventListener = () ->
+      {}
+
+
 #Idle.js main class
 "use strict"
 Idle = { }
@@ -39,10 +56,6 @@ class Idle
     window.onscroll = activeMethod
     window.onmousewheel = activeMethod
 
-    #setup events for page visibility api
-    @listener = (-> activity.handleVisibilityChange())
-
-
   onActive: () ->
     @awayTimestamp = new Date().getTime() + @awayTimeout
     if(@isAway)
@@ -57,9 +70,14 @@ class Idle
     return true
 
   start: () ->
-    document.addEventListener "visibilitychange", @listener, false
-    document.addEventListener "webkitvisibilitychange", @listener, false
-    document.addEventListener "msvisibilitychange", @listener, false
+
+    #setup events for page visibility api
+    if (!@listener)   # only once even if start was called multiple times without stop
+      @listener = (-> activity.handleVisibilityChange())
+      document.addEventListener "visibilitychange", @listener, false
+      document.addEventListener "webkitvisibilitychange", @listener, false
+      document.addEventListener "msvisibilitychange", @listener, false
+
     @awayTimestamp = new Date().getTime() + @awayTimeout
     if (@awayTimer != null)
       clearTimeout @awayTimer
@@ -76,6 +94,7 @@ class Idle
       document.removeEventListener "visibilitychange", @listener
       document.removeEventListener "webkitvisibilitychange", @listener
       document.removeEventListener "msvisibilitychange", @listener
+      @listener = null
     @
 
   setAwayTimeout: (ms) ->
