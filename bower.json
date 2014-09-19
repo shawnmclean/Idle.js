@@ -1,6 +1,6 @@
 {
     "name": "Idle.Js",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "main": "build/idle.js",
     "ignore": [
         "example",
