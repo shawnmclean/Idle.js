@@ -17,6 +17,8 @@ You can view the demo [here.](http://shawnmclean.github.com/Idle.js/)
 
 ## Changelog
 
+0.0.2 (19-11-14) - Bower Support
+
 0.0.2 (7-03-12) - Added 2 events for the visibility API. Now detects when is a user changes tabs or returns.
 
 0.0.1 - Initial activity monitoring.
