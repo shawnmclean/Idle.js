@@ -74,9 +74,15 @@ class Idle
     #setup events for page visibility api
     if (!@listener)   # only once even if start was called multiple times without stop
       @listener = (-> activity.handleVisibilityChange())
-      document.addEventListener "visibilitychange", @listener, false
-      document.addEventListener "webkitvisibilitychange", @listener, false
-      document.addEventListener "msvisibilitychange", @listener, false
+      if (typeof document.hidden != 'undefined')
+        @changeEvent = 'visibilitychange'
+      else if (document.mozHidden != 'undefined')
+        @changeEvent = 'mozvisibilitychange'
+      else if (document.webkitHidden != 'undefined')
+        @changeEvent = 'webkitvisibilitychange'
+      else if (document.msHidden != 'undefined')
+        @changeEvent = 'msvisibilitychange'
+      document.addEventListener @changeEvent, @listener, false if @changeEvent?
 
     @awayTimestamp = new Date().getTime() + @awayTimeout
     if (@awayTimer != null)
@@ -90,10 +96,8 @@ class Idle
   stop: () ->
     if (@awayTimer != null)
       clearTimeout @awayTimer
-    if (@listener != null)
-      document.removeEventListener "visibilitychange", @listener
-      document.removeEventListener "webkitvisibilitychange", @listener
-      document.removeEventListener "msvisibilitychange", @listener
+    if (@listener != null && @changeEvent)
+      document.removeEventListener @changeEvent, @listener
       @listener = null
     @
 
@@ -120,7 +124,7 @@ class Idle
 
   handleVisibilityChange: () ->
     #check for hidden for various browsers
-    if(document.hidden || document.msHidden || document.webkitHidden)
+    if(document.hidden || document.mozHidden || document.msHidden || document.webkitHidden)
       if(@onHidden)
         @onHidden()
     else

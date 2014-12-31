@@ -1,7 +1,6 @@
 (function() {
   var Idle;
 
-  /** IE8/old browser support **/
   if (!document.addEventListener) {
     if (document.attachEvent) {
       document.addEventListener = function(event, callback, useCapture) {
@@ -86,9 +85,18 @@
         this.listener = (function() {
           return activity.handleVisibilityChange();
         });
-        document.addEventListener("visibilitychange", this.listener, false);
-        document.addEventListener("webkitvisibilitychange", this.listener, false);
-        document.addEventListener("msvisibilitychange", this.listener, false);
+        if (typeof document.hidden !== 'undefined') {
+          this.changeEvent = 'visibilitychange';
+        } else if (document.mozHidden !== 'undefined') {
+          this.changeEvent = 'mozvisibilitychange';
+        } else if (document.webkitHidden !== 'undefined') {
+          this.changeEvent = 'webkitvisibilitychange';
+        } else if (document.msHidden !== 'undefined') {
+          this.changeEvent = 'msvisibilitychange';
+        }
+        if (this.changeEvent != null) {
+          document.addEventListener(this.changeEvent, this.listener, false);
+        }
       }
       this.awayTimestamp = new Date().getTime() + this.awayTimeout;
       if (this.awayTimer !== null) {
@@ -105,10 +113,8 @@
       if (this.awayTimer !== null) {
         clearTimeout(this.awayTimer);
       }
-      if (this.listener !== null) {
-        document.removeEventListener("visibilitychange", this.listener);
-        document.removeEventListener("webkitvisibilitychange", this.listener);
-        document.removeEventListener("msvisibilitychange", this.listener);
+      if (this.listener !== null && this.changeEvent) {
+        document.removeEventListener(this.changeEvent, this.listener);
         this.listener = null;
       }
       return this;
@@ -140,7 +146,7 @@
     };
 
     Idle.prototype.handleVisibilityChange = function() {
-      if (document.hidden || document.msHidden || document.webkitHidden) {
+      if (document.hidden || document.mozHidden || document.msHidden || document.webkitHidden) {
         if (this.onHidden) {
           return this.onHidden();
         }
