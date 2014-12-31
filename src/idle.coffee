@@ -75,7 +75,7 @@ class Idle
     if (!@listener)   # only once even if start was called multiple times without stop
       @listener = (-> activity.handleVisibilityChange())
       if (typeof document.hidden != 'undefined')
-        @changeEvent = 'visibilityChange'
+        @changeEvent = 'visibilitychange'
       else if (document.mozHidden != 'undefined')
         @changeEvent = 'mozvisibilitychange'
       else if (document.webkitHidden != 'undefined')

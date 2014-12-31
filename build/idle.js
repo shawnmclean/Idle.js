@@ -86,7 +86,7 @@
           return activity.handleVisibilityChange();
         });
         if (typeof document.hidden !== 'undefined') {
-          this.changeEvent = 'visibilityChange';
+          this.changeEvent = 'visibilitychange';
         } else if (document.mozHidden !== 'undefined') {
           this.changeEvent = 'mozvisibilitychange';
         } else if (document.webkitHidden !== 'undefined') {
