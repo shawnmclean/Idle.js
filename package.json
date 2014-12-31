@@ -1,6 +1,7 @@
 {
   "name": "Idle.Js",
   "version": "0.0.1",
+  "main": "build/idle.js",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-coffee": "~0.7.0",
