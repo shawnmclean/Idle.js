@@ -126,4 +126,13 @@ class Idle
     else
       if(@onVisible)
         @onVisible()
-window.Idle = Idle
+
+if typeof define == 'function' && define.amd
+  # AMD
+  define([], Idle)
+else if typeof exports == 'object'
+  # Node
+  module.exports = Idle
+else
+  # Browser global
+  window.Idle = Idle
