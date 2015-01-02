@@ -1,7 +1,6 @@
 (function() {
   var Idle;
 
-  /** IE8/old browser support **/
   if (!document.addEventListener) {
     if (document.attachEvent) {
       document.addEventListener = function(event, callback, useCapture) {
@@ -155,6 +154,12 @@
 
   })();
 
-  window.Idle = Idle;
+  if (typeof define === 'function' && define.amd) {
+    define([], Idle);
+  } else if (typeof exports === 'object') {
+    module.exports = Idle;
+  } else {
+    window.Idle = Idle;
+  }
 
 }).call(this);
