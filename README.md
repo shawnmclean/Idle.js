@@ -1,12 +1,16 @@
 [![Build Status](https://travis-ci.org/shawnmclean/Idle.js.png?branch=master)](https://travis-ci.org/shawnmclean/Idle.js)
 
-# Idle.Js 
+# Idle.Js
 
 ## NuGet
 
 Visual Studio users can install this directly into their web projects by executing the following command in the [Package Manager Console](http://docs.nuget.org/docs/start-here/using-the-package-manager-console)
 
     PM> Install-Package Idle.js
+
+## Web Component
+
+More information [here](https://github.com/firmfirm/Idle.js).
 
 ## Description
 
