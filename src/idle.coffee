@@ -55,6 +55,8 @@ class Idle
     window.onkeydown = activeMethod
     window.onscroll = activeMethod
     window.onmousewheel = activeMethod
+    window.ontouchmove = activeMethod
+    window.ontouchstart = activeMethod
 
   onActive: () ->
     @awayTimestamp = new Date().getTime() + @awayTimeout
