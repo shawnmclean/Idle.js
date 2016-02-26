@@ -10,7 +10,7 @@ Visual Studio users can install this directly into their web projects by executi
 
 ## Web Component
 
-More information [here](https://github.com/firmfirm/idlejs-element).
+Polymer wrapper is available [here](https://github.com/firmfirm/f-idlejs).
 
 ## Description
 
