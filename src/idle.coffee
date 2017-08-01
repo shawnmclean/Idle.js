@@ -49,14 +49,14 @@ class Idle
     activeMethod = () ->
       activity.onActive()
     #the methods that we will use to know when there is some activity on the page
-    window.onclick = activeMethod
-    window.onmousemove = activeMethod
-    window.onmouseenter = activeMethod
-    window.onkeydown = activeMethod
-    window.onscroll = activeMethod
-    window.onmousewheel = activeMethod
-    window.ontouchmove = activeMethod
-    window.ontouchstart = activeMethod
+    window.addEventListener 'onclick', activeMethod
+    window.addEventListener 'onmousemove', activeMethod
+    window.addEventListener 'onmouseenter', activeMethod
+    window.addEventListener 'onkeydown', activeMethod
+    window.addEventListener 'onscroll', activeMethod
+    window.addEventListener 'onmousewheel', activeMethod
+    window.addEventListener 'ontouchmove', activeMethod
+    window.addEventListener 'ontouchstart', activeMethod
 
   onActive: () ->
     @awayTimestamp = new Date().getTime() + @awayTimeout

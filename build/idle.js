@@ -59,12 +59,14 @@
       activeMethod = function() {
         return activity.onActive();
       };
-      window.onclick = activeMethod;
-      window.onmousemove = activeMethod;
-      window.onmouseenter = activeMethod;
-      window.onkeydown = activeMethod;
-      window.onscroll = activeMethod;
-      window.onmousewheel = activeMethod;
+      window.addEventListener('onclick', activeMethod);
+      window.addEventListener('onmousemove', activeMethod);
+      window.addEventListener('onmouseenter', activeMethod);
+      window.addEventListener('onkeydown', activeMethod);
+      window.addEventListener('onscroll', activeMethod);
+      window.addEventListener('onmousewheel', activeMethod);
+      window.addEventListener('ontouchmove', activeMethod);
+      window.addEventListener('ontouchstart', activeMethod);
     }
 
     Idle.prototype.onActive = function() {
