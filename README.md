@@ -16,7 +16,7 @@ Polymer wrapper is available [here](https://github.com/firmfirm/f-idlejs).
 
 Tiny javascript library to report activity of user in the browser (away, idle, not looking at webpage, etc). that is independent of any other javascript libraries such as jquery.
 
-You can view the demo [here.](http://shawnmclean.github.com/Idle.js/)
+You can view the demo [here.](http://shawnmclean.github.io/Idle.js/)
 
 
 ## Changelog
